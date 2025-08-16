@@ -82,26 +82,27 @@ def main():
     config = load_config()
     jobs = fetch_all(config)
 
-    seen = load_seen()
-    fresh = filter_new(jobs, seen)
-
+    # Always include all jobs in the email
+    email_jobs = jobs
     if args.mode == 'preview':
-        fresh = trim_for_preview(fresh, config.get('max_items_preview', 5))
+        email_jobs = trim_for_preview(jobs, config.get('max_items_preview', 5))
 
-    if not fresh:
-        print("No fresh items; sending digest with 0 new roles.")
+    if not email_jobs:
+        print("No jobs found; sending digest with 0 roles.")
 
-    # merge newly seen for daily; in preview we don't mark as seen
+    # Optionally still update seen for daily mode
     if args.mode == 'daily':
-        new_ids = seen.union({job_id(j) for j in fresh})
+        seen = load_seen()
+        new_ids = seen.union({job_id(j) for j in jobs})
         save_seen(new_ids)
 
     # email
     today = datetime.datetime.utcnow() + datetime.timedelta(hours=5, minutes=30)  # IST-ish timestamp
     date_str = today.strftime('%d %b %Y, %I:%M %p IST')
     subject = f"Startup Job Digest — {date_str} ({args.mode})"
-    text, html = build_email_bodies(fresh, date_str, args.mode)
+    text, html = build_email_bodies(email_jobs, date_str, args.mode)
     send_email(subject, text, html)
 
 if __name__ == '__main__':
     main()
+
