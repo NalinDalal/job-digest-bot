@@ -47,7 +47,7 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          python -m jobs.main.py --mode preview
+          python -m jobs.main --mode preview
 
       - name: Run daily at 06:30 UTC
         if: ${{ github.event_name == 'schedule' && startsWith(github.event.schedule, '30 6') }}
@@ -56,7 +56,7 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          python jobs/main.py --mode daily
+          python -m jobs.main --mode daily
 
       - name: Manual run
         if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -65,4 +65,5 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          python jobs/main.py --mode "${{ github.event.inputs.mode }}"
+          python -m jobs.main --mode "${{ github.event.inputs.mode }}"
+
