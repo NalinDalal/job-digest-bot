@@ -1,0 +1,112 @@
+{
+  "companies": [
+    {
+      "name": "Figma",
+      "provider": "greenhouse",
+      "slug": "figma"
+    },
+    {
+      "name": "Notion",
+      "provider": "greenhouse",
+      "slug": "notion"
+    },
+    {
+      "name": "Vercel",
+      "provider": "greenhouse",
+      "slug": "vercel"
+    },
+    {
+      "name": "Retool",
+      "provider": "greenhouse",
+      "slug": "retool"
+    },
+    {
+      "name": "Ramp",
+      "provider": "greenhouse",
+      "slug": "ramp"
+    },
+    {
+      "name": "Mercury",
+      "provider": "greenhouse",
+      "slug": "mercury"
+    },
+    {
+      "name": "Replit",
+      "provider": "greenhouse",
+      "slug": "replit"
+    },
+    {
+      "name": "Supabase",
+      "provider": "greenhouse",
+      "slug": "supabase"
+    },
+    {
+      "name": "Anthropic",
+      "provider": "greenhouse",
+      "slug": "anthropic"
+    },
+    {
+      "name": "Hasura",
+      "provider": "greenhouse",
+      "slug": "hasura"
+    },
+    {
+      "name": "Sourcegraph",
+      "provider": "greenhouse",
+      "slug": "sourcegraph"
+    },
+    {
+      "name": "ClickHouse",
+      "provider": "greenhouse",
+      "slug": "clickhouse"
+    },
+    {
+      "name": "Linear",
+      "provider": "lever",
+      "slug": "linear"
+    },
+    {
+      "name": "PostHog",
+      "provider": "lever",
+      "slug": "posthog"
+    },
+    {
+      "name": "Vanta",
+      "provider": "lever",
+      "slug": "vanta"
+    },
+    {
+      "name": "Puzzle",
+      "provider": "lever",
+      "slug": "puzzle"
+    },
+    {
+      "name": "Sourcegraph (Lever mirror)",
+      "provider": "lever",
+      "slug": "sourcegraph"
+    }
+  ],
+  "entry_level_keywords": [
+    "new grad",
+    "newgraduate",
+    "new-grad",
+    "junior",
+    "entry",
+    "entry-level",
+    "graduate",
+    "L1",
+    "Level 1",
+    "Engineer I",
+    "SWE I",
+    "I/II"
+  ],
+  "include_functions": [
+    "engineering",
+    "software",
+    "devops",
+    "infrastructure",
+    "site reliability",
+    "data"
+  ],
+  "max_items_preview": 5
+}

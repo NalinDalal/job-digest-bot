@@ -1,0 +1,68 @@
+name: Daily Startup Job Digest
+
+on:
+  schedule:
+    # 04:55 UTC (10:25 IST) preview
+    - cron: '55 4 * * *'
+    # 06:30 UTC (12:00 IST) full digest
+    - cron: '30 6 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode (preview|daily)'
+        required: false
+        default: 'preview'
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache job DB
+        uses: actions/cache@v4
+        with:
+          path: .job_db
+          key: job-db-${{ github.run_id }}
+          restore-keys: |
+            job-db-
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run preview at 04:55 UTC
+        if: ${{ github.event_name == 'schedule' && startsWith(github.event.schedule, '55 4') }}
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python jobs/main.py --mode preview
+
+      - name: Run daily at 06:30 UTC
+        if: ${{ github.event_name == 'schedule' && startsWith(github.event.schedule, '30 6') }}
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python jobs/main.py --mode daily
+
+      - name: Manual run
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python jobs/main.py --mode "${{ github.event.inputs.mode }}"
