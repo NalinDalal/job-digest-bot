@@ -47,7 +47,7 @@ jobs:
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
-          python jobs/main.py --mode preview
+          python -m jobs.main.py --mode preview
 
       - name: Run daily at 06:30 UTC
         if: ${{ github.event_name == 'schedule' && startsWith(github.event.schedule, '30 6') }}
