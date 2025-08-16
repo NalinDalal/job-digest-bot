@@ -1,6 +1,9 @@
 name: Daily Startup Job Digest
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     # 04:55 UTC (10:25 IST) preview
     - cron: '55 4 * * *'
@@ -66,4 +69,13 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
           python -m jobs.main --mode "${{ github.event.inputs.mode }}"
+
+      - name: Run on push
+        if: ${{ github.event_name == 'push' }}
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          python -m jobs.main --mode preview
 
